@@ -1,4 +1,5 @@
 import arcade
+import random
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
@@ -13,20 +14,28 @@ class revRun(arcade.Window):
 
     def setup(self):
         self.player_list = arcade.SpriteList()
-        self.coin_list = arcade.SpriteList()
+        self.enemy_list = arcade.SpriteList()
 
         self.score = 0
 
-        self.player_sprite = arcade.Sprite(".png", SPRITE_SCALING_PLAYER)
-        self.player_sprite.center_x = 50
-        self.player_sprite.center_y = 50
+        self.player_sprite = arcade.Sprite("images\\rev.png", 0.1)
+        self.player_sprite.center_x = 400
+        self.player_sprite.center_y = 300
         self.player_list.append(self.player_sprite)
+
+        for i in range(10):
+            bevo = arcade.Sprite("images\\bevo.png", 0.1)
+
+            bevo.center_x = random.randrange(SCREEN_WIDTH)
+            bevo.center_y = random.randrange(SCREEN_HEIGHT)
+
+            self.enemy_list.append(bevo)
 
     def on_draw(self):
         """ Render the screen. """
         arcade.start_render()
-
-        arcade.finish_render()
+        self.player_list.draw()
+        self.enemy_list.draw()
 
     def update(self, delta_time):
         pass
