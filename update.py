@@ -24,7 +24,7 @@ def update(self, delta_time):
             proj.kill()
         elif len(arcade.check_for_collision_with_list(proj, self.enemy_list)) > 0:
             for dead in arcade.check_for_collision_with_list(proj, self.enemy_list):
-                dead.texture = arcade.load_texture("images\\rev.png", scale=SPRITE_SCALING)
+                dead.kill()
         elif proj.boundary_left is not None and proj.left < proj.boundary_left:
             proj.kill()
         elif proj.boundary_right is not None and proj.right > proj.boundary_right:
