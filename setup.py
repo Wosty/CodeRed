@@ -10,6 +10,7 @@ def setup(self):
     self.wall_list = arcade.SpriteList()
     self.projectiles = arcade.SpriteList()
     self.gems = arcade.SpriteList()
+    self.edge = BLOCK_SIZE     # I hope changing this to 1 fixes everything
 
     player.player(self)
     map.map(self)
