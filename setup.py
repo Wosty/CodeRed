@@ -2,6 +2,7 @@ import arcade
 import random
 from constants import SPRITE_SCALING, BLOCK_SCALING, SCREEN_WIDTH, SPRITE_SIZE, BLOCK_SIZE, GRAVITY
 from environment import genMap
+import player
 
 def setup(self):
     self.player_list = arcade.SpriteList()
@@ -10,13 +11,7 @@ def setup(self):
     self.projectiles = arcade.SpriteList()
     self.gems = arcade.SpriteList()
 
-    self.score = 0
-    self.texture_right = arcade.load_texture("images\\rev.png", mirrored=True, scale=SPRITE_SCALING)
-    self.texture_left = arcade.load_texture("images\\rev.png", scale=SPRITE_SCALING)
-    self.player_sprite = arcade.Sprite("images\\rev.png", SPRITE_SCALING)
-    self.player_sprite.center_x = 400
-    self.player_sprite.center_y = 300
-    self.player_list.append(self.player_sprite)
+    player.player(self)
 
     map_array = genMap()
 
@@ -100,11 +95,3 @@ def setup(self):
                 self.enemy_list.remove(mike)
             else:
                 conflict = False
-
-    #self.all_sprites = arcade.SpriteList()
-    #self.all_sprites = self.enemy_list
-    #self.all_sprites.append(self.player_sprite)
-
-    #self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.wall_list)        
-    self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite, self.wall_list, gravity_constant=GRAVITY)        
-    #self.physics_engine = arcade.PhysicsEnginePlatformer(self.all_sprites, self.wall_list, gravity_constant=GRAVITY)

@@ -1,5 +1,6 @@
 import arcade
 from constants import SPRITE_SCALING, SCREEN_WIDTH, SCREEN_HEIGHT, VIEWPORT_MARGIN, RIGHT_MARGIN
+import player
 
 def update(self, delta_time):
 
@@ -33,6 +34,7 @@ def update(self, delta_time):
 
     if len(hit_list) > 0:
         self.player_sprite.kill()
+        player.player(self)
 
     if self.player_sprite.change_x < 0:
         self.player_sprite.texture = self.texture_left
