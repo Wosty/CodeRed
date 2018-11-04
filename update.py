@@ -4,6 +4,7 @@ from constants import *
 def update(self, delta_time):
 
     self.enemy_list.update()
+    self.projectiles.update()
 
     # Check each enemy
     for enemy in self.enemy_list:
@@ -16,6 +17,17 @@ def update(self, delta_time):
         # If the enemy hit the right boundary, reverse
         elif enemy.boundary_right is not None and enemy.right > enemy.boundary_right:
             enemy.change_x *= -1
+
+    for proj in self.projectiles:
+        if len(arcade.check_for_collision_with_list(proj, self.wall_list)) > 0:
+            proj.kill()
+        elif len(arcade.check_for_collision_with_list(proj, self.enemy_list)) > 0:
+            for dead in arcade.check_for_collision_with_list(proj, self.enemy_list):
+                dead.texture = arcade.load_texture("images\\rev.png", scale=SPRITE_SCALING)
+        elif proj.boundary_left is not None and enemy.left < proj.boundary_left:
+            proj.kill()
+        elif proj.boundary_right is not None and enemy.right > proj.boundary_right:
+            proj.kill()
 
     hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.enemy_list)
 

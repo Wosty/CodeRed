@@ -16,7 +16,6 @@ def setup(self):
     self.player_sprite = arcade.Sprite("images\\rev.png", SPRITE_SCALING)
     self.player_sprite.center_x = 400
     self.player_sprite.center_y = 300
-    self.player_sprite.collision_radius -= 1000
     self.player_list.append(self.player_sprite)
 
     map_array = genMap()
@@ -64,11 +63,11 @@ def setup(self):
             self.wall_list.append(wall)
 
 
-    for i in range(1):
-        bevo = arcade.Sprite("images\\bevo.png", SPRITE_SCALING)
+    for i in range(3, 5):
+        bevo = arcade.Sprite("images\\bevo.png", SPRITE_SCALING * 0.5)
 
-        bevo.center_x = random.randrange(SCREEN_WIDTH)
-        bevo.center_y = random.randrange(SCREEN_HEIGHT)
+        bevo.center_x = random.randrange(SCREEN_WIDTH) * (2 * i)
+        bevo.bottom = 1.8 * BLOCK_SIZE
 
         #bevo.bottom = SPRITE_SIZE
         #bevo.left = SPRITE_SIZE * 2
@@ -77,11 +76,11 @@ def setup(self):
         bevo.change_x = 2
         self.enemy_list.append(bevo)
 
-    for i in range(1):
-        mike = arcade.Sprite("images\\mike.png", SPRITE_SCALING * 2)
+    for i in range(3, 5):
+        mike = arcade.Sprite("images\\mike.png", SPRITE_SCALING * 1)
         
-        mike.center_x = random.randrange(SCREEN_WIDTH)
-        mike.center_y = random.randrange(SCREEN_HEIGHT)
+        mike.center_x = random.randrange(SCREEN_WIDTH) * ((2 * i) + 1)
+        mike.bottom = 1.8 * BLOCK_SIZE
         
         # mike.bottom = SPRITE_SIZE
         # mike.left = SPRITE_SIZE * 2

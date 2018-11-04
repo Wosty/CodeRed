@@ -7,6 +7,7 @@ import setup
 class revRun(arcade.Window):
     """ Main application class. """
 
+    #Initialize variables
     def __init__(self, width, height):
         super().__init__(width, height)
 
@@ -14,6 +15,9 @@ class revRun(arcade.Window):
 
         self.wall_list = None
         self.player_list = None
+        self.enemy_list = None
+        self.projectiles = None
+        self.gems = None
 
         self.score = 0
         self.player_sprite = None
@@ -46,12 +50,15 @@ class revRun(arcade.Window):
         elif key == arcade.key.RIGHT:
             self.player_sprite.change_x = MOVEMENT_SPEED
         elif key == arcade.key.SPACE:
-            self.proj = arcade.Sprite("images\\howdy.png", SPRITE_SCALING)
+            self.proj = arcade.Sprite("images\\howdy.png", SPRITE_SCALING * 2)
             self.proj.center_x = self.player_sprite._get_center_x()
             self.proj.center_y = self.player_sprite._get_center_y()+ 10
-            self.proj.boundary_right = SPRITE_SIZE * 8
-            self.proj.boundary_left = SPRITE_SIZE * 3
-            self.proj.change_x = 2
+            self.proj.boundary_right = SPRITE_SIZE * 100
+            self.proj.boundary_left = -SPRITE_SIZE * 100
+            if self.player_sprite.texture == self.texture_left:
+                self.proj.change_x = -10
+            else:
+                self.proj.change_x = 10
             self.projectiles.append(self.proj)
 
     def on_key_release(self, key, modifiers):
