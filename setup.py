@@ -61,7 +61,7 @@ def setup(self):
     for i in range(3, 5):
         conflict = True
         while conflict:
-            bevo = arcade.Sprite("images\\bevo.png", SPRITE_SCALING * 0.5)
+            bevo = arcade.Sprite("images\\bevo.png", SPRITE_SCALING * 0.75)
 
             bevo.center_x = random.randrange(SCREEN_WIDTH) * (2 * i) + SCREEN_WIDTH
             bevo.bottom = 1.8 * BLOCK_SIZE
@@ -80,7 +80,7 @@ def setup(self):
     for i in range(3, 5):
         conflict = True
         while conflict:
-            mike = arcade.Sprite("images\\mike.png", SPRITE_SCALING * 1)
+            mike = arcade.Sprite("images\\mike.png", SPRITE_SCALING * 1.25)
             
             mike.center_x = random.randrange(SCREEN_WIDTH) * ((2 * i) + 1) + SCREEN_WIDTH
             mike.bottom = 1.8 * BLOCK_SIZE

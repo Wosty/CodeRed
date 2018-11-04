@@ -1,5 +1,5 @@
 import arcade
-from constants import SPRITE_SCALING, SCREEN_WIDTH, SCREEN_HEIGHT, VIEWPORT_MARGIN, RIGHT_MARGIN
+from constants import SPRITE_SCALING, SCREEN_WIDTH, SCREEN_HEIGHT, VIEWPORT_MARGIN, RIGHT_MARGIN, MOVEMENT_SPEED
 import player
 
 def update(self, delta_time):
@@ -46,8 +46,7 @@ def update(self, delta_time):
     # Scroll left
     left_bndry = self.view_left + VIEWPORT_MARGIN
     if self.player_sprite.left < left_bndry:
-        self.view_left -= left_bndry - self.player_sprite.left
-        changed = True
+        self.player_sprite.change_x = MOVEMENT_SPEED
     # Scroll right
     right_bndry = self.view_left + SCREEN_WIDTH - RIGHT_MARGIN
     if self.player_sprite.right > right_bndry:

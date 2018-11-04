@@ -40,6 +40,7 @@ class revRun(arcade.Window):
         self.enemy_list.draw()
         self.wall_list.draw()
         self.projectiles.draw()
+        self.gems.draw()
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.UP:
