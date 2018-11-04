@@ -22,12 +22,12 @@ def genMap():
         for k in range(0, 150):
 
             # Generate platforms and diamonds
-            if k == random.randint(10, 140) and i < 4:
+            if k == random.randint(10, 140) and i < 4 and k > 10:
                 mapArray[i][k] = 2
                 mapArray[i - 2][k] = 5
 
             # Generate ground spikes and diamonds
-            if 4 == (random.randint(0, 16)) and i == (4 + 1):
+            if 4 == (random.randint(0, 16)) and i == (4 + 1) and k > 10:
                 mapArray[i][k] = 4
                 mapArray[i - 1][k - 2] = 2
                 mapArray[i - 3][k] = 5

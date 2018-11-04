@@ -72,9 +72,9 @@ class revRun(arcade.Window):
             self.projectiles.append(self.proj)
         elif key == arcade.key.R:
             self.score = 0
-            setup(self)
+            setup.setup(self)
         elif key == arcade.key.X:
-            pass
+            arcade.window_commands.close_window()
 
     def on_key_release(self, key, modifiers):
         if key == arcade.key.UP or key == arcade.key.DOWN:
