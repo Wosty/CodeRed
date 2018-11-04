@@ -1,6 +1,6 @@
 import arcade
 import random
-from constants import *
+from constants import SPRITE_SCALING, BLOCK_SCALING, SCREEN_WIDTH, SPRITE_SIZE, BLOCK_SIZE, GRAVITY
 from environment import genMap
 
 def setup(self):
@@ -64,30 +64,42 @@ def setup(self):
 
 
     for i in range(3, 5):
-        bevo = arcade.Sprite("images\\bevo.png", SPRITE_SCALING * 0.5)
+        conflict = True
+        while conflict:
+            bevo = arcade.Sprite("images\\bevo.png", SPRITE_SCALING * 0.5)
 
-        bevo.center_x = random.randrange(SCREEN_WIDTH) * (2 * i)
-        bevo.bottom = 1.8 * BLOCK_SIZE
+            bevo.center_x = random.randrange(SCREEN_WIDTH) * (2 * i) + SCREEN_WIDTH
+            bevo.bottom = 1.8 * BLOCK_SIZE
 
-        #bevo.bottom = SPRITE_SIZE
-        #bevo.left = SPRITE_SIZE * 2
-        bevo.boundary_right = SPRITE_SIZE * 100
-        bevo.boundary_left = -SPRITE_SIZE * 100
-        bevo.change_x = 2
-        self.enemy_list.append(bevo)
+            #bevo.bottom = SPRITE_SIZE
+            #bevo.left = SPRITE_SIZE * 2
+            bevo.boundary_right = bevo.center_x + SPRITE_SIZE * 100
+            bevo.boundary_left = bevo.center_x - SPRITE_SIZE * 100
+            bevo.change_x = 2
+            self.enemy_list.append(bevo)
+            if len(arcade.check_for_collision_with_list(bevo, self.wall_list)) > 0 or len(arcade.check_for_collision_with_list(bevo, self.enemy_list)) > 1:
+                self.enemy_list.remove(bevo)
+            else:
+                conflict = False
 
     for i in range(3, 5):
-        mike = arcade.Sprite("images\\mike.png", SPRITE_SCALING * 1)
-        
-        mike.center_x = random.randrange(SCREEN_WIDTH) * ((2 * i) + 1)
-        mike.bottom = 1.8 * BLOCK_SIZE
-        
-        # mike.bottom = SPRITE_SIZE
-        # mike.left = SPRITE_SIZE * 2
-        mike.boundary_right = SPRITE_SIZE * 100
-        mike.boundary_left = -SPRITE_SIZE * 100
-        mike.change_x = 2
-        self.enemy_list.append(mike)
+        conflict = True
+        while conflict:
+            mike = arcade.Sprite("images\\mike.png", SPRITE_SCALING * 1)
+            
+            mike.center_x = random.randrange(SCREEN_WIDTH) * ((2 * i) + 1) + SCREEN_WIDTH
+            mike.bottom = 1.8 * BLOCK_SIZE
+            
+            # mike.bottom = SPRITE_SIZE
+            # mike.left = SPRITE_SIZE * 2
+            mike.boundary_right = mike.center_x + SPRITE_SIZE * 100
+            mike.boundary_left = mike.center_x - SPRITE_SIZE * 100
+            mike.change_x = 2
+            self.enemy_list.append(mike)
+            if len(arcade.check_for_collision_with_list(bevo, self.wall_list)) > 0 or len(arcade.check_for_collision_with_list(bevo, self.enemy_list)) > 1:
+                self.enemy_list.remove(mike)
+            else:
+                conflict = False
 
     #self.all_sprites = arcade.SpriteList()
     #self.all_sprites = self.enemy_list

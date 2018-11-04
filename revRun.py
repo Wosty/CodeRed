@@ -1,6 +1,6 @@
 import arcade
 import random
-from constants import *
+from constants import JUMP_SPEED, SCREEN_HEIGHT, SCREEN_WIDTH, MOVEMENT_SPEED, SPRITE_SCALING, SPRITE_SIZE
 import update
 import setup
 
@@ -53,8 +53,8 @@ class revRun(arcade.Window):
             self.proj = arcade.Sprite("images\\howdy.png", SPRITE_SCALING * 2)
             self.proj.center_x = self.player_sprite._get_center_x()
             self.proj.center_y = self.player_sprite._get_center_y()+ 10
-            self.proj.boundary_right = SPRITE_SIZE * 100
-            self.proj.boundary_left = -SPRITE_SIZE * 100
+            self.proj.boundary_right = self.proj.center_x + SPRITE_SIZE * 100
+            self.proj.boundary_left = self.proj.center_x - SPRITE_SIZE * 100
             if self.player_sprite.texture == self.texture_left:
                 self.proj.change_x = -10
             else:

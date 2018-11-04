@@ -1,5 +1,5 @@
 import arcade
-from constants import *
+from constants import SPRITE_SCALING, SCREEN_WIDTH, SCREEN_HEIGHT, VIEWPORT_MARGIN, RIGHT_MARGIN
 
 def update(self, delta_time):
 
@@ -24,9 +24,9 @@ def update(self, delta_time):
         elif len(arcade.check_for_collision_with_list(proj, self.enemy_list)) > 0:
             for dead in arcade.check_for_collision_with_list(proj, self.enemy_list):
                 dead.texture = arcade.load_texture("images\\rev.png", scale=SPRITE_SCALING)
-        elif proj.boundary_left is not None and enemy.left < proj.boundary_left:
+        elif proj.boundary_left is not None and proj.left < proj.boundary_left:
             proj.kill()
-        elif proj.boundary_right is not None and enemy.right > proj.boundary_right:
+        elif proj.boundary_right is not None and proj.right > proj.boundary_right:
             proj.kill()
 
     hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.enemy_list)
