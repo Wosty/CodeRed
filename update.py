@@ -1,16 +1,16 @@
 import arcade
 from constants import SPRITE_SCALING, SCREEN_WIDTH, SCREEN_HEIGHT, VIEWPORT_MARGIN, RIGHT_MARGIN, MOVEMENT_SPEED, BLOCK_SIZE
 import player
-import map
+import level
 
 def update(self, delta_time):
 
     self.enemy_list.update()
     self.projectiles.update()
 
-    # Spooky math to get edge of map
+    # Spooky math to get edge of level
     if self.player_sprite.center_x > self.edge - SCREEN_WIDTH - 10:
-        map.map(self)
+        level.map(self)
 
     # Check each enemy
     for enemy in self.enemy_list:
