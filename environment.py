@@ -17,3 +17,15 @@ def getMap(filename):
             # Append each row to the array
             mapArray.append(mapRow)
         return mapArray
+
+# Generate map
+def genMap():
+    mapArray = [[]]
+    for i in range (0, 10):
+        for k in range(0, 100):
+            mapArray[i][k] = -1
+
+            if k % 8 == 0:
+               mapArray[i][k] = 1
+
+
