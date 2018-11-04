@@ -39,6 +39,7 @@ def update(self, delta_time):
     hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.enemy_list)
 
     if len(hit_list) > 0:
+        self.score -= 1
         self.player_sprite.kill()
         player.player(self)
 
