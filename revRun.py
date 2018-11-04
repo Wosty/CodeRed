@@ -1,5 +1,6 @@
 import arcade
 import random
+from environment import *
 
 SPRITE_SCALING = 0.1
 BLOCK_SCALING = SPRITE_SCALING * 15
@@ -50,26 +51,34 @@ class revRun(arcade.Window):
         self.player_sprite.center_y = 300
         self.player_list.append(self.player_sprite)
 
-        for x in range(0, SCREEN_WIDTH, BLOCK_SIZE):
-            wall = arcade.Sprite("images\\grassBlock.png", BLOCK_SCALING)
+        map_array = getMap("levelOneMap.csv")
 
-            wall.bottom = 0
-            wall.left = x
-            self.wall_list.append(wall)
+        self.end_of_map = len(map_array[0]) * BLOCK_SIZE
 
-        for x in range(BLOCK_SIZE * 3, BLOCK_SIZE * 8, BLOCK_SIZE):
-            wall = arcade.Sprite("images\\grassBlock.png", BLOCK_SCALING)
+        for row_index, row in enumerate(map_array):
+            for column_index, item in enumerate(row):
 
-            wall.bottom = BLOCK_SIZE * 3
-            wall.left = x
-            self.wall_list.append(wall)
+                # For this map, the numbers represent:
+                # -1 = empty
+                # 0  = box
+                # 1  = grass left edge
+                # 2  = grass middle
+                # 3  = grass right edge
 
-        for x in range(0, SCREEN_WIDTH, BLOCK_SIZE * 5):
-            wall = arcade.Sprite("images\\yellowBrick.png", BLOCK_SCALING)
+                if item == -1:
+                    continue
+                elif item == 0:
+                    wall = arcade.Sprite("images/grassBlock.png", BLOCK_SCALING)
+                elif item == 1:
+                    wall = arcade.Sprite("images/dirtBlock.png", BLOCK_SCALING)
+                elif item == 2:
+                    wall = arcade.Sprite("images/yellowBrick.png", BLOCK_SCALING)
+                else:
+                    continue
 
-            wall.bottom = BLOCK_SIZE
-            wall.left = x
-            self.wall_list.append(wall)
+                wall.right = column_index * 64
+                wall.top = (7 - row_index) * 64
+                self.wall_list.append(wall)
 
 
         for i in range(1):
@@ -78,14 +87,20 @@ class revRun(arcade.Window):
             bevo.center_x = random.randrange(SCREEN_WIDTH)
             bevo.center_y = random.randrange(SCREEN_HEIGHT)
 
+            bevo.bottom = SPRITE_SIZE
+            bevo.left = SPRITE_SIZE * 2
+
             self.enemy_list.append(bevo)
 
         for i in range(1):
             mike = arcade.Sprite("images\\mike.png", SPRITE_SCALING)
-
+            
             mike.center_x = random.randrange(SCREEN_WIDTH)
             mike.center_y = random.randrange(SCREEN_HEIGHT)
-
+            
+            mike.bottom = SPRITE_SIZE
+            mike.left = SPRITE_SIZE * 2
+            
             self.enemy_list.append(mike)
 
         #self.all_sprites = arcade.SpriteList()
