@@ -1,3 +1,5 @@
+import random
+
 # This returns an array of integers representing the game map
 def getMap(filename):
     mapArray = []
@@ -21,6 +23,8 @@ def getMap(filename):
 # Generate map
 def genMap():
     mapArray = list([])
+
+    # Generate ground level
     for i in range (0, 10):
         mapArray.append([])
         for k in range(0, 100):
@@ -28,6 +32,13 @@ def genMap():
 
             if i == 6:
                mapArray[i][k] = 0
+    
+    # Add obstacles
+    for i in range(0, 10):
+        for k in range(0, 100):
+            if k == random.randint(10, 90) and i < 4:
+                mapArray[i][k] = 2
+
     
     return mapArray
 
