@@ -2,7 +2,7 @@ import arcade
 import random
 from constants import SPRITE_SCALING, BLOCK_SCALING, SCREEN_WIDTH, SPRITE_SIZE, BLOCK_SIZE, GRAVITY
 import player
-import map
+import level
 
 def setup(self):
     self.player_list = arcade.SpriteList()
@@ -13,7 +13,7 @@ def setup(self):
     self.edge = BLOCK_SIZE     # I hope changing this to 1 fixes everything
 
     player.player(self)
-    map.map(self)
+    level.map(self)
 
     for i in range(3, 5):
         conflict = True
