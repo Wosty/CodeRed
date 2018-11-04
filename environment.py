@@ -33,6 +33,8 @@ def genMap():
             if i == 6:
                mapArray[i][k] = 0
     
+    mapArray[4 ][3] = 4 + 1
+    
     # Add obstacles
     for i in range(0, 10):
         for k in range(0, 100):
@@ -47,8 +49,5 @@ def genMap():
                 mapArray[i][k] = 4
                 mapArray[i - 1][k - 2] = 2
                 mapArray[i - 3][k] = 5
-
     
     return mapArray
-
-
