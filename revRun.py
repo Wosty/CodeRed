@@ -2,12 +2,14 @@ import arcade
 import random
 
 SPRITE_SCALING = 0.1
+BLOCK_SCALING = SPRITE_SCALING * 15
 
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
+SCREEN_WIDTH = 1200
+SCREEN_HEIGHT = 800
 
-SPRITE_PIXEL_SIZE = 128
-GRID_PIXEL_SIZE = (SPRITE_PIXEL_SIZE * SPRITE_SCALING)
+SPRITE_PIXEL_SIZE = 52
+SPRITE_SIZE = int(SPRITE_PIXEL_SIZE * SPRITE_SCALING)
+BLOCK_SIZE = int(SPRITE_PIXEL_SIZE * BLOCK_SCALING)
 
 VIEWPORT_MARGIN = 40
 RIGHT_MARGIN = 150
@@ -41,13 +43,36 @@ class revRun(arcade.Window):
         self.wall_list = arcade.SpriteList()
 
         self.score = 0
-
+        self.texture_right = arcade.load_texture("images\\rev.png", mirrored=True, scale=SPRITE_SCALING)
+        self.texture_left = arcade.load_texture("images\\rev.png", scale=SPRITE_SCALING)
         self.player_sprite = arcade.Sprite("images\\rev.png", SPRITE_SCALING)
         self.player_sprite.center_x = 400
         self.player_sprite.center_y = 300
         self.player_list.append(self.player_sprite)
 
-        for i in range(5):
+        for x in range(0, SCREEN_WIDTH, BLOCK_SIZE):
+            wall = arcade.Sprite("images\\grassBlock.png", BLOCK_SCALING)
+
+            wall.bottom = 0
+            wall.left = x
+            self.wall_list.append(wall)
+
+        for x in range(BLOCK_SIZE * 3, BLOCK_SIZE * 8, BLOCK_SIZE):
+            wall = arcade.Sprite("images\\grassBlock.png", BLOCK_SCALING)
+
+            wall.bottom = BLOCK_SIZE * 3
+            wall.left = x
+            self.wall_list.append(wall)
+
+        for x in range(0, SCREEN_WIDTH, BLOCK_SIZE * 5):
+            wall = arcade.Sprite("images\\yellowBrick.png", BLOCK_SCALING)
+
+            wall.bottom = BLOCK_SIZE
+            wall.left = x
+            self.wall_list.append(wall)
+
+
+        for i in range(1):
             bevo = arcade.Sprite("images\\bevo.png", SPRITE_SCALING)
 
             bevo.center_x = random.randrange(SCREEN_WIDTH)
@@ -55,7 +80,7 @@ class revRun(arcade.Window):
 
             self.enemy_list.append(bevo)
 
-        for i in range(10):
+        for i in range(1):
             mike = arcade.Sprite("images\\mike.png", SPRITE_SCALING)
 
             mike.center_x = random.randrange(SCREEN_WIDTH)
@@ -63,11 +88,13 @@ class revRun(arcade.Window):
 
             self.enemy_list.append(mike)
 
-        self.all_sprites = arcade.SpriteList()
-        self.all_sprites = self.enemy_list
-        self.all_sprites.append(self.player_sprite)
-        
-        self.physics_engine = arcade.PhysicsEnginePlatformer(self.all_sprites, self.wall_list, gravity_constant=GRAVITY)
+        #self.all_sprites = arcade.SpriteList()
+        #self.all_sprites = self.enemy_list
+        #self.all_sprites.append(self.player_sprite)
+
+        #self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.wall_list)        
+        self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite, self.wall_list, gravity_constant=GRAVITY)        
+        #self.physics_engine = arcade.PhysicsEnginePlatformer(self.all_sprites, self.wall_list, gravity_constant=GRAVITY)
 
 
     def on_draw(self):
@@ -78,22 +105,26 @@ class revRun(arcade.Window):
         self.wall_list.draw()
 
     def update(self, delta_time):
-        hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.player_list)
+        hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.enemy_list)
 
-        if len(hit_list) < 0:
+        if len(hit_list) > 0:
             self.player_sprite.kill()
+
+        if self.player_sprite.change_x < 0:
+            self.player_sprite.texture = self.texture_left
+        if self.player_sprite.change_x > 0:
+            self.player_sprite.texture = self.texture_right
 
         self.physics_engine.update()
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.UP:
-            self.player_sprite.change_y = MOVEMENT_SPEED
-        elif key == arcade.key.DOWN:
-            self.player_sprite.change_y = -MOVEMENT_SPEED
-        elif key == arcade.key.RIGHT:
-            self.player_sprite.change_x = MOVEMENT_SPEED
+            if self.physics_engine.can_jump():
+                self.player_sprite.change_y = JUMP_SPEED
         elif key == arcade.key.LEFT:
             self.player_sprite.change_x = -MOVEMENT_SPEED
+        elif key == arcade.key.RIGHT:
+            self.player_sprite.change_x = MOVEMENT_SPEED
 
     def on_key_release(self, key, modifiers):
         if key == arcade.key.UP or key == arcade.key.DOWN:
