@@ -42,9 +42,11 @@ def genMap():
                 mapArray[i][k] = 2
                 mapArray[i - 2][k] = 5
 
-            # Generate ground spikes
+            # Generate ground spikes and diamonds
             if k == (random.randint(10, 90) or random.randint(10, 90)) and i == (4 + 1):
                 mapArray[i][k] = 4
+                mapArray[i - 1][k - 2] = 2
+                mapArray[i - 3][k] = 5
 
     
     return mapArray
