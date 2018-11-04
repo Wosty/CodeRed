@@ -51,7 +51,7 @@ class revRun(arcade.Window):
         self.player_sprite.center_y = 300
         self.player_list.append(self.player_sprite)
 
-        map_array = getMap("levelOneMap.csv")
+        map_array = genMap()
 
         self.end_of_map = len(map_array[0]) * BLOCK_SIZE
 

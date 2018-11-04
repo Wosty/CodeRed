@@ -20,12 +20,15 @@ def getMap(filename):
 
 # Generate map
 def genMap():
-    mapArray = [[]]
+    mapArray = list([])
     for i in range (0, 10):
+        mapArray.append([])
         for k in range(0, 100):
-            mapArray[i][k] = -1
+            mapArray[i].append(-1)
 
             if k % 8 == 0:
                mapArray[i][k] = 1
+    
+    return mapArray
 
 
