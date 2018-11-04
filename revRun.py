@@ -52,7 +52,8 @@ class revRun(arcade.Window):
             self.player_sprite.change_x = -MOVEMENT_SPEED
         elif key == arcade.key.RIGHT:
             self.player_sprite.change_x = MOVEMENT_SPEED
-        elif key == arcade.key.SPACE and self.score < 0:
+        elif key == arcade.key.SPACE and self.score > 0:
+            self.score -= 1
             self.proj = arcade.Sprite("images\\howdy.png", SPRITE_SCALING * 2)
             self.proj.center_x = self.player_sprite._get_center_x()
             self.proj.center_y = self.player_sprite._get_center_y()+ 10

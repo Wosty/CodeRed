@@ -20,7 +20,6 @@ def update(self, delta_time):
             enemy.change_x *= -1
 
     for proj in self.projectiles:
-        self.score -= 1
         if len(arcade.check_for_collision_with_list(proj, self.wall_list)) > 0:
             proj.kill()
         elif len(arcade.check_for_collision_with_list(proj, self.enemy_list)) > 0:
