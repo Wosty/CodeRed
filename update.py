@@ -8,7 +8,7 @@ def update(self, delta_time):
 
     self.enemy_list.update()
     self.projectiles.update()
-    self.badProjectiles.update()
+    #self.badProjectiles.update()
 
     # Spooky math to get edge of level
     if self.player_sprite.center_x > self.edge - SCREEN_WIDTH - 10:
