@@ -40,7 +40,7 @@ def genMap():
             # Generate platforms and diamonds
             if k == random.randint(10, 90) and i < 4:
                 mapArray[i][k] = 2
-                # mapArray[i - 2][k] = 5
+                mapArray[i - 2][k] = 5
 
             # Generate ground spikes
             if k == (random.randint(10, 90) or random.randint(10, 90)) and i == (4 + 1):
