@@ -41,6 +41,8 @@ class revRun(arcade.Window):
         self.wall_list.draw()
         self.projectiles.draw()
         self.gems.draw()
+        output = f"Score: {self.score}"
+        arcade.draw_text(output, self.view_left+10, 20, arcade.color.WHITE, 14)
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.UP:
@@ -50,7 +52,7 @@ class revRun(arcade.Window):
             self.player_sprite.change_x = -MOVEMENT_SPEED
         elif key == arcade.key.RIGHT:
             self.player_sprite.change_x = MOVEMENT_SPEED
-        elif key == arcade.key.SPACE:
+        elif key == arcade.key.SPACE and self.score < 0:
             self.proj = arcade.Sprite("images\\howdy.png", SPRITE_SCALING * 2)
             self.proj.center_x = self.player_sprite._get_center_x()
             self.proj.center_y = self.player_sprite._get_center_y()+ 10

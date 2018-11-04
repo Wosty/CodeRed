@@ -20,11 +20,13 @@ def update(self, delta_time):
             enemy.change_x *= -1
 
     for proj in self.projectiles:
+        self.score -= 1
         if len(arcade.check_for_collision_with_list(proj, self.wall_list)) > 0:
             proj.kill()
         elif len(arcade.check_for_collision_with_list(proj, self.enemy_list)) > 0:
             for dead in arcade.check_for_collision_with_list(proj, self.enemy_list):
                 dead.kill()
+            self.score += 1
         elif proj.boundary_left is not None and proj.left < proj.boundary_left:
             proj.kill()
         elif proj.boundary_right is not None and proj.right > proj.boundary_right:
@@ -35,6 +37,11 @@ def update(self, delta_time):
     if len(hit_list) > 0:
         self.player_sprite.kill()
         player.player(self)
+
+    hit_gem = arcade.check_for_collision_with_list(self.player_sprite, self.gems)
+    self.score += (len(hit_gem) * 5)
+    for gem in hit_gem:
+        gem.kill()
 
     if self.player_sprite.change_x < 0:
         self.player_sprite.texture = self.texture_left
