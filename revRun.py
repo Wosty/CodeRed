@@ -53,7 +53,7 @@ class revRun(arcade.Window):
 
         map_array = genMap()
 
-        self.end_of_map = len(map_array[0]) * BLOCK_SIZE
+        #self.end_of_map = len(map_array[0]) * BLOCK_SIZE
 
         for row_index, row in enumerate(map_array):
             for column_index, item in enumerate(row):
@@ -73,6 +73,8 @@ class revRun(arcade.Window):
                     wall = arcade.Sprite("images/dirtBlock.png", BLOCK_SCALING)
                 elif item == 2:
                     wall = arcade.Sprite("images/yellowBrick.png", BLOCK_SCALING)
+                elif item == 3:
+                    wall = arcade.Sprite("images/waterTop.png", BLOCK_SCALING)
                 else:
                     continue
 
@@ -81,27 +83,27 @@ class revRun(arcade.Window):
                 self.wall_list.append(wall)
 
 
-        for i in range(1):
-            bevo = arcade.Sprite("images\\bevo.png", SPRITE_SCALING)
+        # for i in range(1):
+        #     bevo = arcade.Sprite("images\\bevo.png", SPRITE_SCALING)
 
-            bevo.center_x = random.randrange(SCREEN_WIDTH)
-            bevo.center_y = random.randrange(SCREEN_HEIGHT)
+        #     bevo.center_x = random.randrange(SCREEN_WIDTH)
+        #     bevo.center_y = random.randrange(SCREEN_HEIGHT)
 
-            bevo.bottom = SPRITE_SIZE
-            bevo.left = SPRITE_SIZE * 2
+        #     bevo.bottom = SPRITE_SIZE
+        #     bevo.left = SPRITE_SIZE * 2
 
-            self.enemy_list.append(bevo)
+        #     self.enemy_list.append(bevo)
 
-        for i in range(1):
-            mike = arcade.Sprite("images\\mike.png", SPRITE_SCALING)
+        # for i in range(1):
+        #     mike = arcade.Sprite("images\\mike.png", SPRITE_SCALING)
             
-            mike.center_x = random.randrange(SCREEN_WIDTH)
-            mike.center_y = random.randrange(SCREEN_HEIGHT)
+        #     mike.center_x = random.randrange(SCREEN_WIDTH)
+        #     mike.center_y = random.randrange(SCREEN_HEIGHT)
             
-            mike.bottom = SPRITE_SIZE
-            mike.left = SPRITE_SIZE * 2
+        #     mike.bottom = SPRITE_SIZE
+        #     mike.left = SPRITE_SIZE * 2
             
-            self.enemy_list.append(mike)
+        #     self.enemy_list.append(mike)
 
         #self.all_sprites = arcade.SpriteList()
         #self.all_sprites = self.enemy_list
@@ -129,6 +131,36 @@ class revRun(arcade.Window):
             self.player_sprite.texture = self.texture_left
         if self.player_sprite.change_x > 0:
             self.player_sprite.texture = self.texture_right
+
+        changed = False
+
+        # Scroll left
+        left_bndry = self.view_left + VIEWPORT_MARGIN
+        if self.player_sprite.left < left_bndry:
+            self.view_left -= left_bndry - self.player_sprite.left
+            changed = True
+
+        # Scroll right
+        right_bndry = self.view_left + SCREEN_WIDTH - RIGHT_MARGIN
+        if self.player_sprite.right > right_bndry:
+            self.view_left += self.player_sprite.right - right_bndry
+            changed = True
+
+        # Scroll up
+        top_bndry = self.view_bottom + SCREEN_HEIGHT - VIEWPORT_MARGIN
+        if self.player_sprite.top > top_bndry:
+            self.view_bottom += self.player_sprite.top - top_bndry
+            changed = True
+
+        # Scroll down
+        bottom_bndry = self.view_bottom + VIEWPORT_MARGIN
+        if self.player_sprite.bottom < bottom_bndry:
+            self.view_bottom -= bottom_bndry - self.player_sprite.bottom
+            changed = True
+
+        # If we need to scroll, go ahead and do it.
+        if changed:
+            arcade.set_viewport(self.view_left, SCREEN_WIDTH + self.view_left, self.view_bottom, SCREEN_HEIGHT + self.view_bottom)
 
         self.physics_engine.update()
 

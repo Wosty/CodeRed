@@ -26,8 +26,8 @@ def genMap():
         for k in range(0, 100):
             mapArray[i].append(-1)
 
-            if i % 8 == 0:
-               mapArray[i][k] = 3
+            if i == 6:
+               mapArray[i][k] = 0
     
     return mapArray
 
