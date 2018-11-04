@@ -1,6 +1,7 @@
 import arcade
 import random
 from constants import BLOCK_SCALING, BLOCK_SIZE
+from setup import enemies
 
 # Generate map
 def genMap():
@@ -80,3 +81,4 @@ def map(self):
             wall.bottom = (6 - row_index) * BLOCK_SIZE
             self.wall_list.append(wall)
     self.edge = BLOCK_SIZE * (149+1) + self.edge
+    enemies(self)

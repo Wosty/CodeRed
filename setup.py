@@ -4,24 +4,13 @@ from constants import SPRITE_SCALING, BLOCK_SCALING, SCREEN_WIDTH, SPRITE_SIZE, 
 import player
 import level
 
-def setup(self):
-    self.player_list = arcade.SpriteList()
-    self.enemy_list = arcade.SpriteList()
-    self.wall_list = arcade.SpriteList()
-    self.projectiles = arcade.SpriteList()
-    self.gems = arcade.SpriteList()
-    self.edge = BLOCK_SIZE     # I hope changing this to 1 fixes everything
-    self.win  = False
-
-    player.player(self)
-    level.map(self)
-
-    for i in range(3, 5):
+def enemies(self):
+    for i in range(1, random.randint(5, 10)):
         conflict = True
         while conflict:
             bevo = arcade.Sprite("images\\bevo.png", SPRITE_SCALING * 0.75)
 
-            bevo.center_x = random.randrange(SCREEN_WIDTH) * (2 * i) + SCREEN_WIDTH
+            bevo.center_x = self.edge + random.randrange(SCREEN_WIDTH) * (2 * i)
             bevo.bottom = 1.8 * BLOCK_SIZE
 
             #bevo.bottom = SPRITE_SIZE
@@ -35,12 +24,12 @@ def setup(self):
             else:
                 conflict = False
 
-    for i in range(3, 5):
+    for i in range(1, random.randint(5, 10)):
         conflict = True
         while conflict:
             mike = arcade.Sprite("images\\mike.png", SPRITE_SCALING * 1.25)
             
-            mike.center_x = random.randrange(SCREEN_WIDTH) * ((2 * i) + 1) + SCREEN_WIDTH
+            mike.center_x = self.edge + random.randrange(SCREEN_WIDTH) * ((2 * i) + 1)
             mike.bottom = 1.8 * BLOCK_SIZE
             
             # mike.bottom = SPRITE_SIZE
@@ -53,3 +42,18 @@ def setup(self):
                 self.enemy_list.remove(mike)
             else:
                 conflict = False
+
+def setup(self):
+    self.player_list = arcade.SpriteList()
+    self.enemy_list = arcade.SpriteList()
+    self.wall_list = arcade.SpriteList()
+    self.projectiles = arcade.SpriteList()
+    self.badProjectiles = arcade.SpriteList()
+    self.gems = arcade.SpriteList()
+    self.edge = BLOCK_SIZE     # I hope changing this to 1 fixes everything
+    self.win  = False
+    self.timer = 0
+
+    player.player(self)
+    level.map(self)
+    enemies(self)
