@@ -11,6 +11,7 @@ def setup(self):
     self.projectiles = arcade.SpriteList()
     self.gems = arcade.SpriteList()
     self.edge = BLOCK_SIZE     # I hope changing this to 1 fixes everything
+    self.win  = False
 
     player.player(self)
     level.map(self)

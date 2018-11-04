@@ -1,6 +1,6 @@
 import arcade
 import random
-from constants import JUMP_SPEED, SCREEN_HEIGHT, SCREEN_WIDTH, MOVEMENT_SPEED, SPRITE_SCALING, SPRITE_SIZE
+from constants import JUMP_SPEED, SCREEN_HEIGHT, SCREEN_WIDTH, MOVEMENT_SPEED, SPRITE_SCALING, SPRITE_SIZE, WIN_SCORE
 import update
 import setup
 
@@ -43,6 +43,12 @@ class revRun(arcade.Window):
         self.gems.draw()
         output = f"Score: {self.score}"
         arcade.draw_text(output, self.view_left+10, 20, arcade.color.WHITE, 14)
+        if self.score >= WIN_SCORE:
+            output = f"Congratulations! You have won!"
+            arcade.draw_text(output, self.view_left + (SCREEN_WIDTH / 4) - 10, self.view_bottom + (SCREEN_HEIGHT / 2), arcade.color.WHITE, 40)
+            output = f"Press 'R' to play again or 'X' to exit the game"
+            arcade.draw_text(output, self.view_left + (SCREEN_WIDTH / 3), self.view_bottom + (SCREEN_HEIGHT / 2) - 30, arcade.color.WHITE, 20)
+
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.UP:
@@ -64,6 +70,11 @@ class revRun(arcade.Window):
             else:
                 self.proj.change_x = 10
             self.projectiles.append(self.proj)
+        elif key == arcade.key.R:
+            self.score = 0
+            setup(self)
+        elif key == arcade.key.X:
+            pass
 
     def on_key_release(self, key, modifiers):
         if key == arcade.key.UP or key == arcade.key.DOWN:
