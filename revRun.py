@@ -1,6 +1,6 @@
 import arcade
 import random
-from environment import *
+from environment import genMap
 
 SPRITE_SCALING = 0.1
 BLOCK_SCALING = SPRITE_SCALING * 15
@@ -38,10 +38,12 @@ class revRun(arcade.Window):
         self.view_bottom = 0
         self.game_over = False
 
+
     def setup(self):
         self.player_list = arcade.SpriteList()
         self.enemy_list = arcade.SpriteList()
         self.wall_list = arcade.SpriteList()
+        self.projectiles = arcade.SpriteList()
 
         self.score = 0
         self.texture_right = arcade.load_texture("images\\rev.png", mirrored=True, scale=SPRITE_SCALING)
@@ -49,6 +51,7 @@ class revRun(arcade.Window):
         self.player_sprite = arcade.Sprite("images\\rev.png", SPRITE_SCALING)
         self.player_sprite.center_x = 400
         self.player_sprite.center_y = 300
+        self.player_sprite.collision_radius -= 1000
         self.player_list.append(self.player_sprite)
 
         map_array = genMap()
@@ -75,6 +78,10 @@ class revRun(arcade.Window):
                     wall = arcade.Sprite("images/yellowBrick.png", BLOCK_SCALING)
                 elif item == 3:
                     wall = arcade.Sprite("images/waterTop.png", BLOCK_SCALING)
+                elif item == 4:
+                    wall = arcade.Sprite("images/floorSpikes.png", BLOCK_SCALING)
+                elif item == 5:
+                    wall = arcade.Sprite("images/blueDiamond.png", BLOCK_SCALING)
                 else:
                     continue
 
@@ -83,27 +90,31 @@ class revRun(arcade.Window):
                 self.wall_list.append(wall)
 
 
-        # for i in range(1):
-        #     bevo = arcade.Sprite("images\\bevo.png", SPRITE_SCALING)
+        for i in range(3):
+            bevo = arcade.Sprite("images\\bevo.png", SPRITE_SCALING)
 
-        #     bevo.center_x = random.randrange(SCREEN_WIDTH)
-        #     bevo.center_y = random.randrange(SCREEN_HEIGHT)
+            bevo.center_x = random.randrange(SCREEN_WIDTH)
+            bevo.center_y = random.randrange(SCREEN_HEIGHT)
 
-        #     bevo.bottom = SPRITE_SIZE
-        #     bevo.left = SPRITE_SIZE * 2
+            #bevo.bottom = SPRITE_SIZE
+            #bevo.left = SPRITE_SIZE * 2
+            bevo.boundary_right = SPRITE_SIZE * 100
+            bevo.boundary_left = SPRITE_SIZE * 100
+            bevo.change_x = 2
+            self.enemy_list.append(bevo)
 
-        #     self.enemy_list.append(bevo)
-
-        # for i in range(1):
-        #     mike = arcade.Sprite("images\\mike.png", SPRITE_SCALING)
+        for i in range(2):
+            mike = arcade.Sprite("images\\mike.png", SPRITE_SCALING)
             
-        #     mike.center_x = random.randrange(SCREEN_WIDTH)
-        #     mike.center_y = random.randrange(SCREEN_HEIGHT)
+            mike.center_x = random.randrange(SCREEN_WIDTH)
+            mike.center_y = random.randrange(SCREEN_HEIGHT)
             
-        #     mike.bottom = SPRITE_SIZE
-        #     mike.left = SPRITE_SIZE * 2
-            
-        #     self.enemy_list.append(mike)
+            # mike.bottom = SPRITE_SIZE
+            # mike.left = SPRITE_SIZE * 2
+            mike.boundary_right = SPRITE_SIZE * 100
+            mike.boundary_left = SPRITE_SIZE * 100
+            mike.change_x = 2
+            self.enemy_list.append(mike)
 
         #self.all_sprites = arcade.SpriteList()
         #self.all_sprites = self.enemy_list
@@ -120,8 +131,24 @@ class revRun(arcade.Window):
         self.player_list.draw()
         self.enemy_list.draw()
         self.wall_list.draw()
+        self.projectiles.draw()
 
     def update(self, delta_time):
+
+        self.enemy_list.update()
+
+        # Check each enemy
+        for enemy in self.enemy_list:
+            # If the enemy hit a wall, reverse
+            if len(arcade.check_for_collision_with_list(enemy, self.wall_list)) > 0:
+                enemy.change_x *= -1
+            # If the enemy hit the left boundary, reverse
+            elif enemy.boundary_left is not None and enemy.left < enemy.boundary_left:
+                enemy.change_x *= -1
+            # If the enemy hit the right boundary, reverse
+            elif enemy.boundary_right is not None and enemy.right > enemy.boundary_right:
+                enemy.change_x *= -1
+
         hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.enemy_list)
 
         if len(hit_list) > 0:
@@ -139,25 +166,21 @@ class revRun(arcade.Window):
         if self.player_sprite.left < left_bndry:
             self.view_left -= left_bndry - self.player_sprite.left
             changed = True
-
         # Scroll right
         right_bndry = self.view_left + SCREEN_WIDTH - RIGHT_MARGIN
         if self.player_sprite.right > right_bndry:
             self.view_left += self.player_sprite.right - right_bndry
             changed = True
-
         # Scroll up
         top_bndry = self.view_bottom + SCREEN_HEIGHT - VIEWPORT_MARGIN
         if self.player_sprite.top > top_bndry:
             self.view_bottom += self.player_sprite.top - top_bndry
             changed = True
-
         # Scroll down
         bottom_bndry = self.view_bottom + VIEWPORT_MARGIN
         if self.player_sprite.bottom < bottom_bndry:
             self.view_bottom -= bottom_bndry - self.player_sprite.bottom
             changed = True
-
         # If we need to scroll, go ahead and do it.
         if changed:
             arcade.set_viewport(self.view_left, SCREEN_WIDTH + self.view_left, self.view_bottom, SCREEN_HEIGHT + self.view_bottom)
@@ -172,6 +195,14 @@ class revRun(arcade.Window):
             self.player_sprite.change_x = -MOVEMENT_SPEED
         elif key == arcade.key.RIGHT:
             self.player_sprite.change_x = MOVEMENT_SPEED
+        elif key == arcade.key.SPACE:
+            self.proj = arcade.Sprite("images\\howdy.png", SPRITE_SCALING)
+            self.proj.center_x = self.player_sprite._get_center_x()
+            self.proj.center_y = self.player_sprite._get_center_y()+ 10
+            self.proj.boundary_right = SPRITE_SIZE * 8
+            self.proj.boundary_left = SPRITE_SIZE * 3
+            self.proj.change_x = 2
+            self.projectiles.append(self.proj)
 
     def on_key_release(self, key, modifiers):
         if key == arcade.key.UP or key == arcade.key.DOWN:
