@@ -1,8 +1,8 @@
 import arcade
 import random
 from constants import SPRITE_SCALING, BLOCK_SCALING, SCREEN_WIDTH, SPRITE_SIZE, BLOCK_SIZE, GRAVITY
-from environment import genMap
 import player
+import map
 
 def setup(self):
     self.player_list = arcade.SpriteList()
@@ -10,53 +10,10 @@ def setup(self):
     self.wall_list = arcade.SpriteList()
     self.projectiles = arcade.SpriteList()
     self.gems = arcade.SpriteList()
+    self.edge = BLOCK_SIZE     # I hope changing this to 1 fixes everything
 
     player.player(self)
-
-    map_array = genMap()
-
-    #self.end_of_map = len(map_array[0]) * BLOCK_SIZE
-
-    for row_index, row in enumerate(map_array):
-        for column_index, item in enumerate(row):
-
-            # For this map, the numbers represent:
-            # -1 = empty
-            # 0  = box
-            # 1  = grass left edge
-            # 2  = grass middle
-            # 3  = grass right edge
-
-            if item == -1:
-                continue
-            elif item == 0:
-                wall = arcade.Sprite("images/grassBlock.png", BLOCK_SCALING)
-            elif item == 1:
-                wall = arcade.Sprite("images/dirtBlock.png", BLOCK_SCALING)
-            elif item == 2:
-                wall = arcade.Sprite("images/yellowBrick.png", BLOCK_SCALING)
-            elif item == 3:
-                wall = arcade.Sprite("images/waterTop.png", BLOCK_SCALING)
-            elif item == 4:
-                wall = arcade.Sprite("images/floorSpikes.png", BLOCK_SCALING)
-                wall.right = column_index * BLOCK_SIZE * (6/5)
-                wall.bottom = (6 - row_index) * BLOCK_SIZE
-                self.enemy_list.append(wall)
-            
-                continue
-            elif item == 5:
-                wall = arcade.Sprite("images/blueDiamond.png", BLOCK_SCALING)
-                wall.right = column_index * BLOCK_SIZE * (6/5)
-                wall.bottom = (6 - row_index) * BLOCK_SIZE
-                self.gems.append(wall)
-                continue
-            else:
-                continue
-
-            wall.right = column_index * BLOCK_SIZE * (6/5)
-            wall.bottom = (6 - row_index) * BLOCK_SIZE
-            self.wall_list.append(wall)
-
+    map.map(self)
 
     for i in range(3, 5):
         conflict = True
