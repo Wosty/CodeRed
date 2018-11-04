@@ -5,12 +5,12 @@ import player
 import level
 
 def enemies(self):
-    for i in range(1, random.randint(5, 10)):
+    for i in range(random.randint(3, 5)):
         conflict = True
         while conflict:
             bevo = arcade.Sprite("images\\bevo.png", SPRITE_SCALING * 0.75)
 
-            bevo.center_x = self.edge + random.randrange(SCREEN_WIDTH) * (2 * i)
+            bevo.center_x = self.player_sprite.center_x + ((random.randrange(100) / 100.0) + ((2 * i) + 1) + 2) * SCREEN_WIDTH
             bevo.bottom = 1.8 * BLOCK_SIZE
 
             #bevo.bottom = SPRITE_SIZE
@@ -24,13 +24,13 @@ def enemies(self):
             else:
                 conflict = False
 
-    for i in range(1, random.randint(5, 10)):
+    for i in range(0, random.randint(3, 5)):
         conflict = True
         while conflict:
             mike = arcade.Sprite("images\\mike.png", SPRITE_SCALING * 1.25)
             
-            mike.center_x = self.edge + random.randrange(SCREEN_WIDTH) * ((2 * i) + 1)
-            mike.bottom = 1.8 * BLOCK_SIZE
+            mike.center_x = self.player_sprite.center_x + ((random.randrange(100) / 100.0) + ((2 * i) + 1) + 2) * SCREEN_WIDTH
+            mike.bottom = 1.5 * BLOCK_SIZE
             
             # mike.bottom = SPRITE_SIZE
             # mike.left = SPRITE_SIZE * 2
