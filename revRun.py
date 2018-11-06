@@ -7,7 +7,7 @@ import setup
 class revRun(arcade.Window):
     """ Main application class. """
 
-    #Initialize variables
+    # Initialize variables
     def __init__(self, width, height):
         super().__init__(width, height)
 
