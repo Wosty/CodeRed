@@ -1,4 +1,5 @@
 import arcade
+import pygame
 import random
 from constants import SPRITE_SCALING, BLOCK_SCALING, SCREEN_WIDTH, SPRITE_SIZE, BLOCK_SIZE, GRAVITY
 import player
@@ -53,6 +54,12 @@ def setup(self):
     self.edge = BLOCK_SIZE     # I hope changing this to 1 fixes everything
     self.win  = False
     self.timer = 0
+
+    # Setup pygame and play Aggie War Hymn
+    #pygame.init()
+    #pygame.mixer.init()
+    #pygame.mixer.music.load(WAR_HYMN)
+    #pygame.mixer.music.play()
 
     player.player(self)
     level.map(self)

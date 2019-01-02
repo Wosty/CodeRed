@@ -20,3 +20,6 @@ MOVEMENT_SPEED = 4 + 1
 JUMP_SPEED = 14
 GRAVITY = 0.5
 WIN_SCORE = 21
+
+# Sound Files
+WAR_HYMN = 'Aggie War Hymn.mp3'
