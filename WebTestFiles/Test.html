@@ -1,14 +1,54 @@
 <!DOCTYPE html>
 <html>
+<head>
+    <meta charset = "utf-8" />
+    <title>RevRun Web Canvas Test</title>
+    <style>
+        * { padding: 0; margin: 0; }
+
+         /* Create canvas object */
+        canvas { background:#87cefa; display: block; margin: 0 auto; }
+    </style>
+</head>
 <body>
-<title>Test</title>
+
+<canvas id= "revCanvas" width = "480" height = "320"></canvas>
+
 <script>
-    var i;
-    var x = 2;
-    for(i = 0; i < 12; i++){
-        x += x;
-        alert(x);
+    // Create reference to canvas already made
+    var canvas = document.getElementById("revCanvas");
+    var ctx = canvas.getContext("2d");
+
+    // Starting point for ball/avatar
+    var posX = canvas.width / 2;
+    var posY = canvas.height - 30;
+
+    // Movement test
+    function moveRight(){posX = posX + 2};
+    function moveLeft(){posX = posX - 2};
+
+    // Draw ground
+    ctx.beginPath();
+    ctx.rect(0, 240, 480, 480);
+    ctx.fillStyle = "#006400";
+    ctx.fill();
+    ctx.closePath();
+    
+    // Draws circle (stand-in for avatar)
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        ctx.beginPath();
+        ctx.arc(posX, posY, 24, 0, Math.PI * 2);
+        ctx.fillStyle  = "#ffff00";
+        ctx.fill();
+        ctx.closePath();
+
+        // Attempt at binding keys to ball movement, does not work
+        posX.onkeypress = moveRight();
     }
+    // Repeats draw infinitely
+    setInterval(draw, 10);
+
 </script>
 
 </body>
